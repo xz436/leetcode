@@ -1,0 +1,220 @@
+1. Leetcode-google
+Given an array of nonnegative integers
+
+{2, 4, 5, 5} => 3
+{1, 1, 2, 3, 4} => 2
+
+1   2
+2   3,2
+3   4
+Find the biggest number K such that at least K elements of the array are >= K
+
+这题就跟leetcode H-index那道题一样
+
+  public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0){
+            return 0;
+        }
+        /*make a new array, and make record of times that each number appear,
+        for example, if we see number 2, then we increase the value shown in the new array on the number 2 element(starting from 0),and if the number is > citations.length, we just increase the number 
+        0th,1th,2th,3th,4th,5th*/
+        int[] newArray = new int[citations.length + 1];
+        for(int i : citations){
+            if(i > citations.length){
+                newArray[citations.length]++;
+            }
+            else{
+                newArray[i]++;
+            }
+        }
+        int count = 0;
+        //从后往前iterate through the array, 把array中的数都加起来，当加起来的数>= index就返回这个值
+        for(int index = newArray.length - 1; index >= 0; index--){
+            count += newArray[index];
+            if(count >= index){
+                return index;
+            }
+        }
+        return 0;
+    }
+
+    另外一种方法是sort了，然后对应的值>= count   ....4 5 6...
+                                                  |..cout =k<=5才行|
+
+
+
+   public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0){
+            return 0;
+        }
+        Arrays.sort(citations);
+        int count = 0;
+        
+        for(int i = citations.length - 1; i >= 0; i--){
+            if(citations[i] > count){
+                count++;
+            }
+            else{
+                break;
+            }
+        }
+        return count;
+    }
+
+2. H index II
+题目说如果sort了怎么办，刚刚是o(n) 其实可以弄到o(log n)来处理
+ public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0){
+            return 0;
+        }
+        //1,2|,4,|5,9
+        //找到最小i，使得a[i]>=length - i（表示4，5，9的个数，也就是题中要求的h）
+        
+        //分析一下为什么可以用二分法，因为可以看到sorted，而且最终想找的值（合适的len - i）得左边都是不符合条件的，右边都是符合条件的
+        int start = 0;
+        int end = citations.length - 1;
+        int mid;
+        int len = citations.length;
+        while(start + 1 < end){
+            mid = start + (end - start)/2;
+            if(citations[mid] >= len - mid){
+                end = mid;
+            }
+            else{
+                start = mid;
+            }
+        }
+        if(citations[start] >= len - start){
+            return len - start;
+        }
+        if(citations[end] >= len - end){
+            return len - end;
+        }
+        return 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+public static int findK(int[] A){
+if(A == null || A.length == 0){
+return 0;
+}
+public class newType{
+public 
+int x;
+int y;
+}
+HashMap<Integer, Integer>() map = new HashMap<integer, Integer>();
+for(int i = 1; i <= A.length; i++){
+map.put(i, );
+
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+test case:
+{1,2,4,5}  
+{1,1,1} k = 1 
+
+
+k = 1;findNum(k)=x;
+k = 3;findNum(k) = y;
+x<y
+
+Find the biggest number K such that at least K elements of the array are >= K
+      
+//num of elements that is larger or equal to k
+
+public static int findNum(int[] A, int k){
+if(A == null || A.length == 0){
+return 0;
+}
+int count = 0;
+for(int a : A){
+if(a >= k){
+count++;
+}
+}
+return count;
+}
+
+public static int findK(int[] A){
+if(A == null || A.length == 0){
+return 0;
+}
+int max = 0;
+for(int i = A.length; i >= 0; i--){
+if(findNum(i) >= i){
+max = Math.max(max, i);
+}
+}
+return max;
+}
+
+
+
+
+{0...A.length}
+
+{2, 4, 5, 5}
+start = 0;
+end = 4;
+mid = 2;
+findNum(2)>= 2;
+start = 2;
+mid = (2+ 4)/2=3;
+findNum(3)>=3
+start = 3;
+end = 4;
+mid = 7/2 = 3;
+
+
+
+//find the biggest num k such that at least K elements of the array are >= k
+public static int findK(int[] A){
+if(A == null || A.length == 0){
+return 0;
+}
+int start = 0;
+int end = A.length;
+int mid;
+while(start + 1 < end){
+mid = start + (end - start)/2;
+if(findNum(mid) >= mid){
+start = mid;
+}
+else if(findNum(mid) < mid){
+end = mid;
+}
+
+}
+if(findNum(end) >= end){
+return end;
+}
+if(findNum(start) >= start){
+return start;
+}
+return 0;
+
+}
+
+
